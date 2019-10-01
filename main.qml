@@ -27,7 +27,13 @@ ApplicationWindow {
         id: newFile
         text: "New"
         shortcut: StandardKey.New
-        onTriggered: textArea.text = " "
+        onTriggered: {
+  //          if(document.fileUrl == ""){
+  //              textArea.text = ""
+  //          }
+            document.fileUrl = ""
+            document.text = ""
+        }
     }
 
     Action {
@@ -44,8 +50,11 @@ ApplicationWindow {
         text: "Save"
         shortcut: StandardKey.Save
         onTriggered:{
-            fileDialog.selectExisting = true
-            saveasFile.trigger()
+            if(document.fileUrl == "")
+                saveasFile.trigger()
+            else{
+                document.save(document.fileUrl)
+            }
         }
     }
     Action{
@@ -108,6 +117,7 @@ ApplicationWindow {
     }
     DocumentHandler {
         id: document
+        fileUrl: ""
         target: textArea
 //        Component.onCompleted: document.fileUrl = "qrc:/example.html"
         onError: {

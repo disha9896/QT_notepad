@@ -142,7 +142,21 @@ void DocumentHandler::saveAs(const QUrl &arg, const QString &fileType)
     f.close();
     setFileUrl(QUrl::fromLocalFile(localPath));
 }
-
+void DocumentHandler::save(const QUrl &arg)
+{
+    QLatin1String ext(".txt");
+    QString localPath = arg.toLocalFile();
+    if (!localPath.endsWith(ext))
+        localPath += ext;
+    QFile f(localPath);
+    if (!f.open(QFile::WriteOnly | QFile::Truncate | (QFile::Text))) {
+        emit error(tr("Cannot save: ") + f.errorString());
+        return;
+    }
+    f.write((m_doc->toPlainText()).toLocal8Bit());
+    f.close();
+    setFileUrl(QUrl::fromLocalFile(localPath));
+}
 
 QUrl DocumentHandler::fileUrl() const
 {

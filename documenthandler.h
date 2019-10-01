@@ -93,6 +93,7 @@ public Q_SLOTS:
     void setFileUrl(const QUrl &arg);
     void setText(const QString &arg);
     void saveAs(const QUrl &arg, const QString &fileType);
+    void save(const QUrl &arg);
     void setDocumentTitle(QString arg);
 
 Q_SIGNALS:
